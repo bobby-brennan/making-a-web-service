@@ -6,7 +6,7 @@ Here we'll register a domain, allocate machines to run the site, and set up SSL
 ### ELB
 * In AWS, create a new VPC
 * Create one or more new ec2 machines (Ubuntu preferred) in that VPC
-** note: reserved instances are cheaper, but require a 1yr commitment
+  * note: reserved instances are cheaper, but require a 1yr commitment
 * Under ec2 page, create a loadbalancer
 * Add your machine to the loadbalancer
 * Set up a listener that forwards port 80 to port 3000
@@ -30,9 +30,9 @@ openssl req -new -newkey rsa:2048 -nodes -keyout yourdomain.key -out yourdomain.
 * Open your loadbalancer in AWS, click "edit listeners"
 * Add a rule to forward HTTPS (443) to 3000
 * Add certificates using copy/paste:
-** Private key is yourdomain.key generated above
-** Public key is $randomID.crt from GoDaddy download
-** Certificate Chain is gd_bundle-g2-g1.crt
+  * Private key is yourdomain.key generated above
+  * Public key is $randomID.crt from GoDaddy download
+  * Certificate Chain is gd_bundle-g2-g1.crt
 * (optional) redirect HTTP to HTTPS:
 ```js
 if (!process.env.DEVELOPMENT) {
