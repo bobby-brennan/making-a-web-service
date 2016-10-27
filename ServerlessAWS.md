@@ -1,6 +1,7 @@
 # Serverless Web Hosting with AWS
 
-This is a set of instructions for deploying a web service using AWS tools.
+This is a set of instructions for deploying a web service using nothing but AWS tools.
+The one exception is that we'll use GMail (via Google Apps for Work) to manage e-mails.
 
 For the frontend, we will:
 * Register a domain with Route 53
@@ -48,3 +49,66 @@ Once that's done, you'll need to add MX records so that Route 53 forwards your m
 10 ALT3.ASPMX.L.GOOGLE.COM.
 10 ALT4.ASPMX.L.GOOGLE.COM.
 ```
+
+Once you have a user set up in Google Apps for Work, you should be able to receive emals at user@yourdomain.com.
+
+## Get an SSL Cert
+We'll use AWS Certificate Manager to get a free SSL cert. As an alternative, you
+can check out [Let's Encrypt](https://letsencrypt.org/)
+
+Sadly, even though we registered with Route 53,
+you'll need to verify that we have access to the email address admin@yourdomain.com
+
+To set up the e-mail address admin@yourdomain.com:
+* Head back to Google Apps for Work
+* Click "Users"
+* Click your user
+* Click "Account"
+* Click "Add an Alias"
+* Enter "admin" and save.
+
+Now any e-mails to admin@yourdomain.com should get forwarded to user@yourdomain.com (or whatever the primary email is)
+
+Now let's get the certificate.
+
+Head over to [AWS Certificate Manager](https://console.aws.amazon.com/acm/home?region=us-east-1#/)
+and click "Request a Certificate" and enter your domain. AWS will send you a confirmation email
+at admin@yourdomain.com - click the link in the email to confirm.
+
+## Upload your website to S3
+Head over to [S3](https://console.aws.amazon.com/s3/home?region=us-east-1) and create a new bucket.
+
+You can then either upload your HTML/CSS/JS manually, or use the AWS CLI:
+
+```bash
+sudo pip install awscli
+export AWS_ACCESS_KEY_ID=YOUR_ACCESS_KEY
+export AWS_SECRET_ACCESS_KEY=YOUR_SECRET_KEY
+aws s3 sync path/to/your/assets/ s3://your-bucket-name/
+```
+
+You can find your key and secret in [AWS IAM](https://console.aws.amazon.com/iam/home?region=us-east-1#)
+
+You should now be able to view your website at http://your-bucket-name.s3-website-us-east-1.amazonaws.com/
+
+## Create a CloudFront Distribution
+CloudFront will route traffic from your domain name to your S3 bucket.
+
+Head over to [CloudFront](https://console.aws.amazon.com/cloudfront/home?region=us-east-1) and create a new distribution.
+Under "Web", click "Get Started".
+
+You should now see a form with a bunch of settings.  All the defaults should be good except:
+
+#### Origin Settings
+* Origin Domain Name: choose your s3 bucket
+
+#### Default Cache Behavior Settings
+* Viewer Protocol Policy: If your website deals with sensitive information, consider redirecting HTTP to HTTPS
+
+#### Distribution Settings
+* SSL Certificate: Choose "Custom SSL Certificate" and select the certificate you just got.
+* Default Root Object: set this to "index.html" (or whatever file in your s3 bucket has your homepage)
+
+
+Once your CloudFront distribution is up (takes ~10 minutes), you should be able to view your website at
+the domain provided (something.cloudfront.net).
