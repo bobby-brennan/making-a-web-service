@@ -16,7 +16,7 @@ For the backend, we will:
 * Use serverless to deploy to AWS Lambda and AWS API Gateway
 
 ## Register a domain
-https://console.aws.amazon.com/route53/home?region=us-east-1
+Follow instructions at [Route53](https://console.aws.amazon.com/route53/home)
 
 ## Set up e-mail
 We'll use gmail to manage email.
@@ -71,12 +71,12 @@ Now any e-mails to admin@yourdomain.com should get forwarded to user@yourdomain.
 
 Now let's get the certificate.
 
-Head over to [AWS Certificate Manager](https://console.aws.amazon.com/acm/home?region=us-east-1#/)
+Head over to [AWS Certificate Manager](https://console.aws.amazon.com/acm/home)
 and click "Request a Certificate" and enter your domain. AWS will send you a confirmation email
 at admin@yourdomain.com - click the link in the email to confirm.
 
 ## Upload your website to S3
-Head over to [S3](https://console.aws.amazon.com/s3/home?region=us-east-1) and create a new bucket.
+Head over to [S3](https://console.aws.amazon.com/s3/home) and create a new bucket.
 
 Then click "Properties" -> "Permissions" -> "Edit Bucket Policy" and enter:
 
@@ -108,14 +108,14 @@ export AWS_SECRET_ACCESS_KEY=YOUR_SECRET_KEY
 aws s3 sync path/to/your/assets/ s3://your-bucket-name/
 ```
 
-You can find your key and secret in [AWS IAM](https://console.aws.amazon.com/iam/home?region=us-east-1#)
+You can find your key and secret in [AWS IAM](https://console.aws.amazon.com/iam/home)
 
 You should now be able to view your website at http://your-bucket-name.s3-website-us-east-1.amazonaws.com/
 
 ## Create a CloudFront Distribution
 CloudFront will route traffic from your domain name to your S3 bucket.
 
-Head over to [CloudFront](https://console.aws.amazon.com/cloudfront/home?region=us-east-1) and create a new distribution.
+Head over to [CloudFront](https://console.aws.amazon.com/cloudfront/home) and create a new distribution.
 Under "Web", click "Get Started".
 
 You should now see a form with a bunch of settings.  All the defaults should be good except:
@@ -133,3 +133,19 @@ You should now see a form with a bunch of settings.  All the defaults should be 
 
 Once your CloudFront distribution is up (takes ~10 minutes), you should be able to view your website at
 the domain provided (something.cloudfront.net).
+
+Now we just need to link your domain to the CloudFront distribution:
+* Head back to [Route53](https://console.aws.amazon.com/route53/home)
+* Select your domain
+* Click "Create Record"
+* Chose "A" record
+* Set "Alias" to "Yes"
+* Choose your CloudFormation dist
+* Click "Create Record"
+* Choose "AAAA" record
+* Set "Alias" to "Yes"
+* Choose your CloudFormation dist
+
+**Congrats!** you should now be able to see your website at yourdomain.com
+
+
