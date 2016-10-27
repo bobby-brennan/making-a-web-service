@@ -78,6 +78,27 @@ at admin@yourdomain.com - click the link in the email to confirm.
 ## Upload your website to S3
 Head over to [S3](https://console.aws.amazon.com/s3/home?region=us-east-1) and create a new bucket.
 
+Then click "Properties" -> "Permissions" -> "Edit Bucket Policy" and enter:
+
+```
+{
+	"Version": "2008-10-17",
+	"Statement": [
+		{
+			"Sid": "AllowPublicRead",
+			"Effect": "Allow",
+			"Principal": {
+				"AWS": "*"
+			},
+			"Action": "s3:GetObject",
+			"Resource": "arn:aws:s3:::gitway-website-dev/*"
+		}
+	]
+}
+```
+
+Then click "Static Website Hosting" and choose "Enable website hosting". Enter "index.html" as the index document.
+
 You can then either upload your HTML/CSS/JS manually, or use the AWS CLI:
 
 ```bash
