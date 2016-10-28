@@ -1,11 +1,11 @@
 # Serverless Web Hosting with AWS
 
 This is a set of instructions for deploying a web service using nothing but AWS tools.
-The one exception is that we'll use GMail (via Google Apps for Work) to manage e-mails.
+The one exception is that we'll use GMail (via G Suite) to manage e-mails.
 
 For the frontend, we will:
 * Register a domain with Route 53
-* Set up e-mail for the new domain using Google Apps for Work
+* Set up e-mail for the new domain using G Suite
 * Get a free SSL certificate from AWS Certificate Manager
 * Host static content (HTML, JS, CSS) on Amazon S3
 * Create a CloudFront formation that associates the SSL cert with the S3 bucket
@@ -24,7 +24,7 @@ for the instructions below to work.
 ## Set up e-mail
 We'll use gmail to manage email.
 
-Sign up for Google Apps for Work:
+Sign up for G Suite:
 https://gsuite.google.com/index.html
 
 Google will ask you to verify that you own the domain you registered on Route 53.
@@ -53,7 +53,7 @@ Once that's done, you'll need to add MX records so that Route 53 forwards your m
 10 ALT4.ASPMX.L.GOOGLE.COM.
 ```
 
-Once you have a user set up in Google Apps for Work, you should be able to receive emals at user@yourdomain.com.
+Once you have a user set up in G Suite, you should be able to receive emals at user@yourdomain.com.
 
 ## Get an SSL Cert
 We'll use AWS Certificate Manager to get a free SSL cert. As an alternative, you
@@ -63,7 +63,7 @@ Sadly, even though we registered with Route 53,
 you'll need to verify that we have access to the email address admin@yourdomain.com
 
 To set up the e-mail address admin@yourdomain.com:
-* Head back to Google Apps for Work
+* Head back to G Suite
 * Click "Users"
 * Click your user
 * Click "Account"
