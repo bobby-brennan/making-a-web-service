@@ -16,7 +16,9 @@ For the backend, we will:
 * Use serverless to deploy to AWS Lambda and AWS API Gateway
 
 ## Register a domain
-Follow instructions at [Route53](https://console.aws.amazon.com/route53/home)
+Follow instructions at [Route53](https://console.aws.amazon.com/route53/home).
+If you've already registered your domain on another registrar, you'll need to
+transfer it to Route53 for the instructions below to work.
 
 ## Set up e-mail
 We'll use gmail to manage email.
