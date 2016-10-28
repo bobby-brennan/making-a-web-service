@@ -18,7 +18,8 @@ For the backend, we will:
 ## Register a domain
 Follow instructions at [Route53](https://console.aws.amazon.com/route53/home).
 If you've already registered your domain on another registrar, you'll need to
-transfer it to Route53 for the instructions below to work.
+[transfer it to Route53](http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/domain-transfer-to-route-53.html)
+for the instructions below to work.
 
 ## Set up e-mail
 We'll use gmail to manage email.
