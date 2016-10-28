@@ -134,17 +134,29 @@ You should now see a form with a bunch of settings.  All the defaults should be 
 Once your CloudFront distribution is up (takes ~10 minutes), you should be able to view your website at
 the domain provided (something.cloudfront.net).
 
-Now we just need to link your domain to the CloudFront distribution:
-* Head back to [Route53](https://console.aws.amazon.com/route53/home)
+Now we just need to link your domain to the CloudFront distribution. Head back to [Route53](https://console.aws.amazon.com/route53/home)
+
+#### IPv4 Record:
 * Select your domain
 * Click "Create Record"
 * Chose "A" record
 * Set "Alias" to "Yes"
 * Choose your CloudFormation dist
+* Click Save
+
+#### IPv6 Record
 * Click "Create Record"
 * Choose "AAAA" record
 * Set "Alias" to "Yes"
 * Choose your CloudFormation dist
+* Click Save
+
+#### Alias www to apex
+* Click "Create Record"
+* Set "name" to "www"
+* Choose "CNAME"
+* Enter yourdomain.com
+* Click Save
 
 **Congrats!** you should now be able to see your website at yourdomain.com
 
